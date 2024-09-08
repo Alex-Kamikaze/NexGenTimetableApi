@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'timetable'
+    'timetable',
+    'document_ordering'
 ]
 
 MIDDLEWARE = [
@@ -122,4 +123,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ["https://35af-45-136-246-92.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://e8a6-45-136-246-92.ngrok-free.app"]
