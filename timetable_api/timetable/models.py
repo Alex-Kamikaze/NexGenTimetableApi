@@ -54,11 +54,17 @@ class Timetable(models.Model):
         ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4")
     )
 
+    days_of_week = (
+        ("0", "Понедельник"), ("1", "Вторник"), ("2", "Среда"), ("3", "Четверг"), ("4", "Пятница"), ("5", "Суббота")
+    )
+
+    day_of_week = models.CharField(max_length=1, choices=days_of_week, verbose_name="День недели", default="0")
     pair_number = models.CharField(max_length=1, choices=pair_numbers, verbose_name="Номер пары")
     subject_id = models.ForeignKey(Subject, on_delete=models.PROTECT, verbose_name="Учебная дисциплина")
     teacher_id = models.ForeignKey(Teacher, on_delete=models.PROTECT, verbose_name="Преподаватель")
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name="Учебная группа")
-    cabinet_number = models.CharField(max_length=6, verbose_name="Номер кабинета")
+    distant_pair = models.BooleanField(default=False, verbose_name="Дистанционное занятие")
+    cabinet_number = models.CharField(max_length=6, verbose_name="Номер кабинета", blank=True) # Оставлять пустым только в случае, если занятие дистанционное
     pair_begin_time = models.TimeField(verbose_name="Время начала пары")
     pair_end_time = models.TimeField(verbose_name="Время конца пары")
 
