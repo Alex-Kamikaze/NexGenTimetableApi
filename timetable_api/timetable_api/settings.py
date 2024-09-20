@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'timetable',
-    'document_ordering'
+    'document_ordering',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
