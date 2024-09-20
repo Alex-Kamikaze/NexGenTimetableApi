@@ -74,3 +74,27 @@ class TimetableForGroupView(APIView):
 
         except Timetable.DoesNotExist:
             return Response(f"Не найдено расписания для группы с id {group_id}", status = status.HTTP_404_NOT_FOUND)
+        
+class TimetableForTeacherView(APIView):
+    @extend_schema(
+        summary = "Получение пар для преподавателя",
+        description = "Возвращает расписание для конкретного преподавателя",
+        responses = {
+            200: OpenApiResponse(response = TimetableModelSerializer, description = "Расписание получено успешно"),
+            400: OpenApiResponse(description = "ID Преподавателя не найдено")
+        }
+    )
+    def get(self, request, teacher_id):
+        try:
+            result = []
+            timetable = Timetable.objects.filter(teacher_id = teacher_id)
+            if len(timetable) == 0:
+                return Response(f"Не найдено пар для преподавателя с ID {teacher_id}", status = status.HTTP_400_BAD_REQUEST)
+            for pair in timetable:
+                timetable_view = TimetablePresenterModel(day_of_week=pair.day_of_week, pair_number=pair.pair_number, distant_pair = pair.distant_pair, subject_name=pair.subject_id.subject_name, teacher_name=pair.teacher_id.teacher_name, cabinet_number=pair.cabinet_number, pair_begin_time=pair.pair_begin_time, pair_end_time = pair.pair_end_time, denominator_options=pair.denominator_options)
+                result.append(timetable_view)
+
+            serialized_data = TimetableSerializer(result, many=True)
+            return Response(serialized_data.data, status = status.HTTP_200_OK)
+        except Timetable.DoesNotExist:
+            return Response(f"Не найдено пар для преподавателя с ID {teacher_id}", status = status.HTTP_400_BAD_REQUEST)
