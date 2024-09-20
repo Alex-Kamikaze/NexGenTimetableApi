@@ -98,3 +98,4 @@ class TimetableForTeacherView(APIView):
             return Response(serialized_data.data, status = status.HTTP_200_OK)
         except Timetable.DoesNotExist:
             return Response(f"Не найдено пар для преподавателя с ID {teacher_id}", status = status.HTTP_400_BAD_REQUEST)
+    
