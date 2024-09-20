@@ -18,12 +18,12 @@ class TimetableModelSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class TimetableSerializer(serializers.Serializer):
-    day_of_week = serializers.IntegerField(default=0)
-    pair_number = serializers.IntegerField(default=1)
-    distant_pair = serializers.BooleanField(default=False)
-    subject_name = serializers.CharField(max_length = 100)
-    teacher_name = serializers.CharField(max_length = 200)
-    cabinet_number = serializers.CharField(max_length = 4)
-    pair_begin_time = serializers.CharField()
-    pair_end_time = serializers.CharField()
-    denominator_options = serializers.CharField(max_length = 2)
+    day_of_week = serializers.IntegerField(default=0, label="День недели")
+    pair_number = serializers.IntegerField(default=1, label = "Номер пары")
+    distant_pair = serializers.BooleanField(default=False, label = "Пара в дистанционном формате")
+    subject_name = serializers.CharField(max_length = 100, label = "Название дисциплины")
+    teacher_name = serializers.CharField(max_length = 200, label = "ФИО Преподавателя")
+    cabinet_number = serializers.CharField(max_length = 4, label = "Номер кабинета")
+    pair_begin_time = serializers.CharField(label = "Время начала пары")
+    pair_end_time = serializers.CharField(label = "Время окончания пары")
+    denominator_options = serializers.CharField(max_length = 2, label = "Настройки числителя/знаменателя")
