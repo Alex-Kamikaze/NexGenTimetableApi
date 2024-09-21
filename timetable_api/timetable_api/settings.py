@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'timetable',
     'document_ordering',
     'rest_framework',
-    'drf_spectacular'
+    'drf_spectacular',
+    'student_list'
 ]
 
 MIDDLEWARE = [
