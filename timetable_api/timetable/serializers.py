@@ -5,12 +5,12 @@ from .models import Group, Teacher, Timetable
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ["pk", "group_name", "group_course"]
+        fields = "__all__"
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ["pk", "teacher_name", "teacher_is_active"]
+        fields = "__all__"
 
 class TimetableModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +27,15 @@ class TimetableSerializer(serializers.Serializer):
     pair_begin_time = serializers.CharField(label = "Время начала пары")
     pair_end_time = serializers.CharField(label = "Время окончания пары")
     denominator_options = serializers.CharField(max_length = 2, label = "Настройки числителя/знаменателя")
+
+class SubstitutionRequestSerializer(serializers.Serializer):
+    group_id = serializers.IntegerField(label = "ID Группы")
+    date = serializers.DateField(label = "Дата замещения")
+
+class SubstitutionResponseSerializer(serializers.Serializer):
+    date_of_substitution = serializers.DateField(label = "Дата замещения")
+    pair_num = serializers.IntegerField(label = "Номер пары")
+    subject = serializers.CharField(label = "Дисциплина на замещении")
+    teacher = serializers.CharField(label = "Преподаватель на замещении")
+    cabinet = serializers.CharField(label = "Кабинет")
+    distant_pair = serializers.BooleanField(label = "Дистанционное занятие")

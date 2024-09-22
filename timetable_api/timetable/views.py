@@ -2,7 +2,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 from .serializers import *
 from .models import *
 
@@ -17,6 +18,15 @@ class TimetablePresenterModel:
         self.pair_begin_time = pair_begin_time
         self.pair_end_time = pair_end_time
         self.denominator_options = denominator_options
+
+class SubstituionPresenterModel:
+    def __init__(self, date_of_substitution, pair_num, subject, cabinet, teacher, distant_pair):
+        self.date_of_substitution = date_of_substitution
+        self.pair_num = pair_num
+        self.subject = subject
+        self.cabinet = cabinet
+        self.teacher = teacher
+        self.distant_pair = distant_pair
 
 
 class GroupListView(APIView):
@@ -98,4 +108,32 @@ class TimetableForTeacherView(APIView):
             return Response(serialized_data.data, status = status.HTTP_200_OK)
         except Timetable.DoesNotExist:
             return Response(f"Не найдено пар для преподавателя с ID {teacher_id}", status = status.HTTP_400_BAD_REQUEST)
-    
+        
+class SubstitutionForGroup(APIView):
+    @extend_schema(
+        summary="Поиск замещения для группы",
+        description="Возвращает список замещений для указанной группы в определенную дату",
+        request = SubstitutionRequestSerializer,
+        responses = {
+            200: OpenApiResponse(response = SubstitutionResponseSerializer, description = "Замещения загружены успешно"),
+            400: OpenApiResponse(description = "Произошла ошибка при валидации запроса")
+        },
+        parameters = [
+            OpenApiParameter(name = "group_id", type=OpenApiTypes.INT),
+            OpenApiParameter(name = "date", type = OpenApiTypes.DATE)
+        ]
+    )
+    def get(self, request):
+        request_data = SubstitutionRequestSerializer(data = request.GET)
+
+        if request_data.is_valid():
+            substitutions = Substitution.objects.filter(date_of_substitution = request_data._validated_data["date"], group_id = request_data._validated_data["group_id"])
+            result = []
+            for substitution in substitutions:
+                result.append(SubstituionPresenterModel(date_of_substitution=substitution.date_of_substitution, pair_num=substitution.original_class.pair_number, subject = substitution.subject_on_substitution, cabinet=substitution.cabinet_on_substitution, teacher = substitution.teacher_on_substitution.teacher_name, distant_pair=substitution.distant_pair))
+
+            serialized_data = SubstitutionResponseSerializer(result, many=True)
+            return Response(serialized_data.data, status = status.HTTP_200_OK)
+        
+        else:
+            return Response(request_data._errors, status = status.HTTP_400_BAD_REQUEST)

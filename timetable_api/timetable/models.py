@@ -88,6 +88,7 @@ class Timetable(models.Model):
 
 class Substitution(models.Model):
     date_of_substitution = models.DateField(verbose_name="Дата замещения")
+    group_id = models.ForeignKey(Group, on_delete = models.CASCADE, verbose_name = "Учебная группа")
     original_class = models.ForeignKey(Timetable, on_delete=models.CASCADE, verbose_name="Пара для замены")
     subject_on_substitution = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Предмет для замещения")
     teacher_on_substitution = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="Преподаватель на замещаемой паре")
