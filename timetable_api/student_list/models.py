@@ -1,8 +1,10 @@
 from django.db import models
 from timetable.models import Group
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
+    user_id = models.ForeignKey(User, verbose_name="Профиль пользователя", on_delete=models.CASCADE)
     fio = models.TextField(verbose_name = "ФИО Студента")
     date_of_birth = models.DateField(verbose_name = "Дата рождения")
     group_id = models.ForeignKey(Group, on_delete = models.CASCADE, verbose_name = "Учебная группа")

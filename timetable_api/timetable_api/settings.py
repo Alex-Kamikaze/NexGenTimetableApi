@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'document_ordering',
     'rest_framework',
     'drf_spectacular',
-    'student_list'
+    'student_list',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -129,7 +130,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = ["https://e8a6-45-136-246-92.ngrok-free.app"]
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
 }
 
 SPECTACULAR_SETTINGS = {
@@ -137,4 +141,14 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API для получения расписания, списка учебных групп, преподавателей, и заказа справок в деканате',  
     'VERSION': '1.0.0',                                           
     'SERVE_INCLUDE_SCHEMA': False,                                
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_Key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization: Token'
+        }
+    },
 }

@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication 
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 
@@ -25,17 +27,13 @@ class CertificateTypeView(APIView):
         return Response(data = serialized_types.data, status = status.HTTP_200_OK)
     
 class OrderCertificateView(APIView):
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (TokenAuthentication, )
+
     @extend_schema(
         summary = "Заказ справки",
         description = "Заказ справки для студента",
         request = CertificateOrderRequestSerializer,
-        parameters = [
-            OpenApiParameter("student_id", type=OpenApiTypes.INT),
-            OpenApiParameter("certificate_type", type=OpenApiTypes.INT),
-            OpenApiParameter("full_organization_name", type=OpenApiTypes.STR, allow_blank=True),
-            OpenApiParameter("full_voenkomat_name", type=OpenApiTypes.STR, allow_blank=True),
-            OpenApiParameter("certificate_amount", type=OpenApiTypes.INT, default=1)
-        ],
         responses = {
             200: OpenApiResponse(response = CertificateOrderResponseSerializer, description = "Справка заказана успешно"),
             400: OpenApiResponse(description="Произошла ошибка при валидации данных"),
@@ -67,8 +65,8 @@ class OrderCertificateView(APIView):
                     return Response("Произошла внутренняя ошибка при попытке сохранения справки", status = status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             except Student.DoesNotExist:
-                return Response(f"Студент с ID {serialized_request._validated_data["student_id"]} не найден!")
+                return Response(f"Студент с ID {serialized_request._validated_data["student_id"]} не найден!", status = status.HTTP_404_NOT_FOUND)
             except CertificateType.DoesNotExist:
-                return Response(f"Тип справки с ID {serialized_request._validated_data["certificate_type"]} не найден!")
+                return Response(f"Тип справки с ID {serialized_request._validated_data["certificate_type"]} не найден!", status = status.HTTP_404_NOT_FOUND)
         else:
             return Response(data = serialized_request._errors, status = status.HTTP_400_BAD_REQUEST)
