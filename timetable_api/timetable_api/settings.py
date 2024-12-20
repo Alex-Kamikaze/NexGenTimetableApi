@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-r4=(#e+uwli9*$5jesc5hj==dzx0w7)2b68sl6syx_tz1-3*b)
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Application definition
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'student_list',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'timetable_api.urls'
@@ -127,7 +130,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ["https://e8a6-45-136-246-92.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://c175-45-136-246-144.ngrok-free.app"]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -152,3 +155,4 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+

@@ -21,11 +21,11 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("timetable/", include('timetable.urls'), name="Расписание"),
-    path("documents/", include('document_ordering.urls'), name="Заказ справок"),
+    path("api/timetable/", include('timetable.urls'), name="Расписание"),
+    path("api/documents/", include('document_ordering.urls'), name="Заказ справок"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/swagger", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/docs/redoc", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("api/token", obtain_auth_token, name="Авторизация"),
-    path("student/", include("student_list.urls"), name="Список студентов")
+    path("api/student/", include("student_list.urls"), name="Список студентов")
 ]
