@@ -76,12 +76,14 @@ class Timetable(models.Model):
     class Meta:
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
-        ordering = ["pair_number", "day_of_week"]
+        ordering = ["day_of_week", "pair_number"]
 
     def __str__(self):
-        return f"{self.pair_number} пара для группы {self.group_id.group_name}"
+        return f"{self.get_day_of_week_name(self.day_of_week)}: {self.pair_number} пара для группы {self.group_id.group_name}"
     
-    # TODO: Добавить as_json
+    def get_day_of_week_name(self, day_num):
+        days = {"0": "Понедельник", "1": "Вторник", "2": "Среда", "3": "Четверг", "4": "Пятница", "5": "Суббота"}
+        return days.get(day_num)
 
     def as_json(self):
         return dict(timetable_id = self.pk, pair_number = self.pair_number, group_id = self.group_id.pk, cabinet_number = self.cabinet_number, teacher_name = self.teacher_id.teacher_name, start_time = f"{self.pair_begin_time.hour}:{self.pair_begin_time.min}", end_time=f"{self.pair_end_time.hour}:{self.pair_end_time.min}")
