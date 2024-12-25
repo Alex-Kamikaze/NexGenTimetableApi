@@ -109,3 +109,18 @@ class Substitution(models.Model):
     def __str__(self):
         return f"Замещение для группы {self.original_class.group_id.group_name} на {self.date_of_substitution.day}.{self.date_of_substitution.month:02}.{self.date_of_substitution.year}"
 
+class Exam(models.Model):
+    date_of_exam = models.DateField(verbose_name="Дата экзамена")
+    time_of_exam = models.TimeField(null = False, blank = False, verbose_name = "Время экзамена")
+    group_id = models.ForeignKey(Group, on_delete = models.CASCADE, verbose_name = "Учебная группа")
+    subject_for_exam = models.ForeignKey(Subject, on_delete = models.CASCADE, verbose_name="Предмет")
+    is_consultation = models.BooleanField(default = False, null = False, verbose_name = "Консультация")
+    cabinet_for_exam = models.CharField(max_length=6, verbose_name="Номер кабинета", blank=True)
+
+    class Meta:
+        verbose_name = "Экзамен"
+        verbose_name_plural = "Экзамены"
+
+
+    def __str__(self):
+        return f"{"Консультация" if self.is_consultation else "Экзамен"} {self.date_of_exam.day}.{self.date_of_exam.month:02}.{self.date_of_exam.year} по предмету {self.subject_for_exam.subject_name} для группы {self.group_id.group_name}"

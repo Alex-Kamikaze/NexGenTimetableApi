@@ -142,7 +142,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'TCMC NexGen Timetable API',                               
     'DESCRIPTION': 'API для получения расписания, списка учебных групп, преподавателей, и заказа справок в деканате',  
-    'VERSION': '1.0.0',                                           
+    'VERSION': '1.0-alpha1',                                           
     'SERVE_INCLUDE_SCHEMA': False,                                
 }
 
