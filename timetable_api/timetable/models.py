@@ -124,3 +124,15 @@ class Exam(models.Model):
 
     def __str__(self):
         return f"{"Консультация" if self.is_consultation else "Экзамен"} {self.date_of_exam.day}.{self.date_of_exam.month:02}.{self.date_of_exam.year} по предмету {self.subject_for_exam.subject_name} для группы {self.group_id.group_name}"
+
+class Examinator(models.Model):
+    exam_id = models.ForeignKey(Exam, on_delete=models.CASCADE, verbose_name = "Выбранный экзамен")
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name = "Экзаменатор")
+
+    class Meta:
+        verbose_name = "Экзаменатор"
+        verbose_name_plural = "Экзаменаторы"
+    
+    def __str__(self):
+        return f"{self.teacher_id.teacher_name}: {"Консультация" if self.exam_id.is_consultation else "Экзамен"} {self.exam_id.subject_for_exam.subject_name} у группы {self.exam_id.group_id.group_name}"
+    

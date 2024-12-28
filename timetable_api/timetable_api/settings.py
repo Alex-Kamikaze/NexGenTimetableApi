@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'document_ordering',
     'rest_framework',
     'drf_spectacular',
+    'django_extensions',
     'student_list',
     'rest_framework.authtoken',
     'corsheaders'
