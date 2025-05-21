@@ -135,4 +135,17 @@ class Examinator(models.Model):
     
     def __str__(self):
         return f"{self.teacher_id.teacher_name}: {"Консультация" if self.exam_id.is_consultation else "Экзамен"} {self.exam_id.subject_for_exam.subject_name} у группы {self.exam_id.group_id.group_name}"
-    
+
+class Configuration(models.Model):
+    """ Вспомогательные значения """
+
+    parameter_name = models.CharField(max_length=255, verbose_name="Название параметра")
+    parameter_value = models.CharField(max_length=255, verbose_name="Значение параметра")
+
+    class Meta:
+        verbose_name = "Параметр"
+        verbose_name_plural = "Параметры"
+        ordering = ["parameter_name"]
+
+    def __str__(self):
+        return self.parameter_name

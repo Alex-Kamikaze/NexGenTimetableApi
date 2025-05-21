@@ -131,7 +131,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ["https://c175-45-136-246-144.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://8432-185-200-106-98.ngrok-free.app"]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',

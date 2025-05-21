@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Group, Teacher, Timetable, Subject, Substitution, Exam, Examinator
+from .models import Group, Teacher, Timetable, Subject, Substitution, Exam, Examinator, Configuration
 # Register your models here.
 
 class TimetableAdminModel(admin.ModelAdmin):
@@ -18,3 +18,7 @@ admin.site.register(Timetable, TimetableAdminModel)
 admin.site.register(Substitution)
 admin.site.register(Exam, ExamAdminModel)
 admin.site.register(Examinator, ExaminatorsAdminModel)
+
+@admin.register(Configuration)
+class ConfigurationAdminModel(admin.ModelAdmin):
+    list_display=["pk", "parameter_name", "parameter_value"]

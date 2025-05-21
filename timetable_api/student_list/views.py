@@ -37,6 +37,7 @@ class AddStudentView(APIView):
                 )
                 serialized_response = StudentRegistrationResponseSerializer(data = {"student_id": new_student.pk})
                 new_student.save()
+                serialized_request.is_valid(raise_exception = True)
                 if serialized_response.is_valid():
                     return Response(serialized_response.data, status = status.HTTP_200_OK)
                 else:
